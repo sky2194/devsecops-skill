@@ -1,6 +1,7 @@
+---
 name: sbom-install-plugin
 description: Generate an SBOM and Vulnerability scan results for a Maven, Gradle or npm project using CycloneDX and OWASP Dependency-Check
-
+---
 SBOM Install Plugin Skill
 
 Purpose
