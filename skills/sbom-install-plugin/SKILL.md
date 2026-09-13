@@ -1,12 +1,13 @@
 ---
 name: sbom-install-plugin
 description: Generate an SBOM and Vulnerability scan results for a Maven, Gradle or npm project using CycloneDX and OWASP Dependency-Check
+argument-hint: "[path to project]"
 license: MIT
 ---
 SBOM Install Plugin Skill
 
 Purpose
-Generate an SBOM and Vulnerability scan results for the target application.
+Generate an SBOM and vulnerability scan results for the target application.
 
 Supported ecosystems
 Maven
@@ -20,8 +21,8 @@ Workflow
 4. Generate the SBOM using CycloneDX JSON format.
 5. Create the security directory if it does not exist.
 6. Store the generated SBOM as security/bom.json.
-7. Run OWASP Dependency-Check against the target project/SBOM as appropriate.
-8. Generate the vulnerability scan results in  SARIF format.
+7. Run OWASP Dependency-Check against the target project or SBOM as appropriate.
+8. Generate the vulnerability scan results in SARIF format.
 9. Store the results as security/results.sarif.
 
 Requirements
