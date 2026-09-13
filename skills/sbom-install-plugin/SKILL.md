@@ -26,6 +26,7 @@ Workflow
 6. Store the generated SBOM as security/bom.json.
 7. Run DepAnalyzer against the target project's manifest, per the DepAnalyzer requirements below.
 8. Store the native DepAnalyzer JSON scan snapshot as security/depanalyzer-results.json.
+9. Ensure the target project's .gitignore excludes security/bom.json and security/depanalyzer-results.json. If .gitignore does not exist, create it. If these entries are already present, do not duplicate them.
 
 Requirements
 Use the actual project dependency information.
@@ -36,13 +37,14 @@ Do not scan unrelated directories, global package caches, system packages, or de
 Do not create fake or hard-coded SBOM or vulnerability scan results.
 Preserve the target project's existing source code and dependency definitions.
 Do not modify application source code or dependencies as part of this skill.
+Do not commit or stage security/bom.json or security/depanalyzer-results.json in the target project.
 
 DepAnalyzer requirements
 Use DepAnalyzer as the primary vulnerability scanner.
 API endpoint: https://www.depanalyzer.com/api/scan (POST, JSON body, no authentication required).
 Request body: {"content": "<raw manifest file contents>", "filename": "<manifest filename>", "ecosystem": "<maven|npm|pypi>"}.
 For Maven projects, submit `pom.xml` content with filename `pom.xml` and ecosystem `maven`.
-For npm projects, submit `package.json` or `package-lock.json` content with the matching filename.
+For npm projects, submit `package.json` or `package-lock.json` content with the matching filename. If `package-lock.json` exceeds DepAnalyzer's dependency limit, fall back to submitting `package.json`.
 DepAnalyzer does not currently support Gradle. For Gradle projects, generate the SBOM (steps 3–6) as normal, skip the DepAnalyzer scan, and report this limitation clearly instead of guessing or falling back silently.
 Use DepAnalyzer's native JSON response as the source of truth.
 Preserve the response fields required for remediation, including `summary`, `vulnerabilities`, `fixes`, `grouped_packages`, `graph`, `dependency_tree`, and `scan_timestamp`.
@@ -55,4 +57,5 @@ SBOM generation status
 Location of security/bom.json
 Vulnerability scan status (or the Gradle limitation, if applicable)
 Location of security/depanalyzer-results.json
+Confirmation that security/bom.json and security/depanalyzer-results.json are excluded via .gitignore
 Any errors that prevented successful SBOM generation or vulnerability scanning
