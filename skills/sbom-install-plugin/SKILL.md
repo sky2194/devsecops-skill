@@ -26,8 +26,7 @@ Workflow
 6. Create the security directory if it does not exist.
 7. Store the generated SBOM as security/bom.json.
 8. Run DepAnalyzer against the target project's manifest or generated SBOM.
-9. Generate vulnerability scan results in SARIF format. If DepAnalyzer returns JSON instead of SARIF, convert the DepAnalyzer findings into SARIF 2.1.0 before continuing.
-10. Store the results as security/results.sarif.
+9. Store the native DepAnalyzer JSON scan snapshot as security/depanalyzer-results.json.
 
 Requirements
 Use the actual project dependency information.
@@ -41,9 +40,12 @@ Do not modify application source code or dependencies as part of this skill.
 
 DepAnalyzer requirements
 Use DepAnalyzer as the primary vulnerability scanner.
-For Maven projects, submit the target project's `pom.xml` or the generated `security/bom.json` to DepAnalyzer.
-Use DepAnalyzer's returned package, version, vulnerability, severity, path, and fix recommendation fields as the source of truth.
-If DepAnalyzer cannot produce SARIF directly, transform its scan response into SARIF 2.1.0 while preserving CVE identifiers, affected packages, fixed versions, severity, and dependency paths.
+Submit the target project's manifest content to DepAnalyzer's scan API.
+For Maven projects, submit `pom.xml` with filename `pom.xml` and ecosystem `maven`.
+For Gradle projects, submit the dependency manifest supported by DepAnalyzer, if available.
+For npm projects, submit `package.json`, `package-lock.json`, or `npm-shrinkwrap.json` with the appropriate filename.
+Use DepAnalyzer's native JSON response as the source of truth.
+Preserve the response fields required for remediation, including `summary`, `vulnerabilities`, `fixes`, `grouped_packages`, `graph`, `dependency_tree`, and `scan_timestamp`.
 Do not fall back to OWASP Dependency-Check unless the user explicitly asks for it.
 
 Completion
@@ -52,5 +54,5 @@ Detected ecosystem
 SBOM generation status
 Location of security/bom.json
 Vulnerability scan status
-Location of security/results.sarif
+Location of security/depanalyzer-results.json
 Any errors that prevented successful SBOM generation or vulnerability scanning

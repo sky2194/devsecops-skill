@@ -5,7 +5,7 @@ Agentic AI Skills for SBOM generation and vulnerability remediation, built for G
 ## Skills
 
 - **sbom-install-plugin** — Generates an SBOM and vulnerability scan results (CycloneDX + DepAnalyzer) for Maven, Gradle, or npm projects.
-- **sbom-fix-vulnerability** — Analyzes SARIF vulnerability findings and patches the affected dependency file (`pom.xml`, `build.gradle`, or `package.json`) with a fixed version.
+- **sbom-fix-vulnerability** — Analyzes DepAnalyzer JSON vulnerability findings and patches the affected dependency file (`pom.xml`, `build.gradle`, or `package.json`) with a fixed version.
 
 ## Install
 
